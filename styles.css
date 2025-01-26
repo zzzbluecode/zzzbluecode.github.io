@@ -11,6 +11,7 @@ body {
     color: white;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100vh;
 }
 
 .left-panel nav ul {
@@ -31,10 +32,6 @@ body {
 
 .left-panel nav ul li a:hover {
     color: #00bcd4;
-}
-
-.left-panel-placeholder {
-    background-color: #333;
 }
 
 .main-content {
