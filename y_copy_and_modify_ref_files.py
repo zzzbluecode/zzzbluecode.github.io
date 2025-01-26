@@ -8,6 +8,7 @@ ref_dir = './ref'
 dest_dir = './'
 
 import re
+import time
 
 def replace_last_div_outside_script(text, new_word):
     # Regex to match <script> blocks
@@ -52,6 +53,28 @@ def add_page_to_left_panel(page_name):
         with open('left-panel.html', 'w') as left_panel_file:
             left_panel_file.write(left_panel_content)
 
+def update_script_js_timestamp(script_js_path):
+    """
+    Updates the timestamp in the fetch call inside script.js to prevent caching.
+    """
+    # Get the current timestamp
+    current_time_stamp = str(int(time.time()))
+
+    # Read the content of script.js
+    with open(script_js_path, 'r') as file:
+        content = file.read()
+
+    # Update the timestamp in the fetch call
+    updated_content = re.sub(
+        r"fetch\('left-panel.html.*?\)",
+        f"fetch('left-panel.html?t={current_time_stamp}')",
+        content
+    )
+
+    # Write the updated content back to script.js
+    with open(script_js_path, 'w') as file:
+        file.write(updated_content)
+
 # Iterate over all files in the ref directory
 for filename in os.listdir(ref_dir):
     if filename.endswith('.html') and "copy" not in filename:
@@ -77,3 +100,6 @@ for filename in os.listdir(ref_dir):
         print(f"File '{filename}' copied to '{dest_file_path}'")
         add_page_to_left_panel(f"page_{filename}")
         print(f"Page '{filename}' added to the left panel")
+
+        update_script_js_timestamp('./script.js')
+        print("Updated script.js timestamp...")
