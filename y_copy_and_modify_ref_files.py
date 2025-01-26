@@ -37,7 +37,7 @@ def replace_last_div_outside_script(text, new_word):
     return text
 
 def add_page_to_left_panel(page_name):
-    page_to_add = f'<li><a href="{page_name}">{page_name}</a></li>'
+    page_to_add = f'<li><a href="{page_name}">{page_name.replace("page_", "", 1).replace(".html", "")}</a></li>'
     
     # Read the content of left-panel.html
     with open('left-panel.html', 'r') as left_panel_file:
@@ -74,4 +74,6 @@ for filename in os.listdir(ref_dir):
         with open(dest_file_path, 'w') as dest_file:
             dest_file.write(content)
 
+        print(f"File '{filename}' copied to '{dest_file_path}'")
         add_page_to_left_panel(f"page_{filename}")
+        print(f"Page '{filename}' added to the left panel")
